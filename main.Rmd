@@ -18,34 +18,52 @@ knitr::opts_chunk$set(echo = TRUE,
 library(ggplot2)
 library(dplyr)
 
+# Python
+library(reticulate)
+
 data(iris)
 df = iris
 ```
+
+```{r shell}
+shell('pip install seaborn')
+```
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.stats as stats
+import math
+
+```
+
+
 
 
 # Exponential Distribution Family
 
 The probability density function of the normal distribution is given by
 
-$$
+$\begin{aligned}
 f(y|\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}(\frac{y-\mu}{\sigma})^2})
-$$
+\end{aligned}$
 
 which can be rewritten as 
 
-$$
+$\begin{aligned}
 \frac{1}{\sigma\sqrt{2\pi}} \cdot e^{\frac{-(x-\mu)^2}{2\sigma^2}}
-$$
+\end{aligned}$
 
 and then, finally, applying the square of the multiplication rule, as:
 
-$$
+$\begin{aligned}
 \frac{\color{red}1}
 {\color{green}{\sigma\sqrt{2\pi}}} \cdot \color{green}{e^ {\frac{-\mu^2}{2\sigma^2}}} 
 \cdot 
 e^{(\color{blue}{-x^2} \cdot \color{lightblue}{\frac{1}{2\sigma^2}} + \color{pink}{x} 
 \cdot \color{purple} {\frac{\mu}{\sigma^2}})}
-$$
+\end{aligned}$
 
 This particular form highlights a structure that is common to all distributions in the exponential family, which we will examine below.
 
@@ -53,55 +71,169 @@ This particular form highlights a structure that is common to all distributions 
 
 With $h(x)$, $t_i(x)$, $c(\theta)$ and $w_i(\theta)$ being known functions in $\mathbb{R}$:
 
-$$
+$\begin{aligned}
 f(x|\theta) = h(x)\cdot c(\theta) \cdot e^{\sum_{i=1}^k w_i(\theta) \cdot t_i(x)}
-$$
+\end{aligned}$
 
 From the previous example, 
 
-$$
-h(x) = \color{red}{1}\\
-t_i(x) = \color{green}{\frac{1}{\sigma\sqrt{2\pi}}} \cdot \color{green}{e^ {\frac{-\mu^2}{2\sigma^2}}}\\
-t_1(x) = \color{blue}{-x^2}\\
-w_1(x) = \color{lightblue}{\frac{1}{2\sigma^2}}\\
-t_2(x) = \color{pink}{x}\\
-w_2(x) = \color{purple} {\frac{\mu}{\sigma^2}}
-$$
+$\begin{aligned}
+& h(x) = \color{red}{1}\\
+& t_i(x) = \color{green}{\frac{1}{\sigma\sqrt{2\pi}}} \cdot \color{green}{e^ {\frac{-\mu^2}{2\sigma^2}}}\\
+& t_1(x) = \color{blue}{-x^2}\\
+& w_1(x) = \color{lightblue}{\frac{1}{2\sigma^2}}\\
+& t_2(x) = \color{pink}{x}\\
+& w_2(x) = \color{purple} {\frac{\mu}{\sigma^2}}
+\end{aligned}$
 
 ## Alternate form of the bi-parametric exponential distribution family
 
-$$
+$\begin{aligned}
 f(y|\theta,\phi) = e^{\frac{y\theta - b(\theta)}{a(\phi)} + c(y,\phi)}
-$$
+\end{aligned}$
 
 The previously shown p.d.f. of the normal distribution can also be written as 
 
-$$
+$\begin{aligned}
 e^{\frac{y \mu - \frac{\mu^2}{2}}{\sigma^2} + ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}
-$$
+\end{aligned}$
 
 or
 
-$$
+$\begin{aligned}
 e^{\frac{\color{red}{y \mu} - 
 \color{green}{\frac{\mu^2}{2}}}
 {\color{blue}
 {\sigma^2}} + 
 \color{fuchsia}{
 ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}}
-$$
+\end{aligned}$
 
 In this example, we have
 
-$$
-\theta = \mu \\
-\phi = \sigma^2 \\
-b(\theta) = \color{green}{\frac{\mu^2}{2}} \\
-a(\phi) = \color{blue} {\sigma^2} \\
-c(y,\theta) = \color{fuchsia}{ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}
-$$
+$\begin{aligned}
+& \theta = \mu \\
+& \phi = \sigma^2 \\
+& b(\theta) = \color{green}{\frac{\mu^2}{2}} \\
+& a(\phi) = \color{blue} {\sigma^2} \\
+& c(y,\theta) = \color{fuchsia}{ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}
+\end{aligned}$
 
 Therefore, the normal distribution can also fit this particular type of structure. In this context, $\theta$ is called a *natural parameter* and $\phi$ is called a *dispersion parameter*.
+
+# Normal Distribution
+
+## Probability Density Function
+
+$\begin{aligned}
+f(y|\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}(\frac{y-\mu}{\sigma})^2})
+\end{aligned}$
+
+```{r}
+# Improvised
+normal_curve = function(x, mu, sigma){
+  res = (1/(sigma*sqrt(2*pi))) * exp(-0.5 * ((x-mu)/sigma)^2)
+  return(res)
+}
+
+ggplot() +
+  xlim(0,15)  + 
+  geom_function(fun = normal_curve,
+                args = list(sigma = 2,
+                            mu = 5)) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_line(color = 'grey',
+                                        size = 0.5,
+                                        linetype = 2)) + 
+  labs(y = 'probability', title = 'Normal p.d.f.')
+```
+
+```{r}
+# Built-in function
+ggplot() +
+  xlim(0,15)  + 
+  geom_function(fun = dnorm,
+                args = list(mean = 5,
+                            sd = 2)) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_line(color = 'grey',
+                                        size = 0.5,
+                                        linetype = 2)) + 
+  labs(y = 'probability', title = 'Normal p.d.f.')
+
+
+```
+
+```{python, message = T}
+def normal_curve_py(x:float, mu: float, sigma: float) -> float:
+  res = (1/(sigma * np.sqrt(2*np.pi))) * np.exp(-0.5 * ((x-mu)/sigma)**2)
+  return res
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+
+ax.spines['left'].set_position('left')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+
+x = range(15)
+y = [normal_curve_py(i, 5,2) for i in x]
+
+plt.plot(x, y)
+plt.show()
+```
+
+# Poisson Distribution
+
+## Probability Mass Function
+
+$\begin{aligned}
+f(k;\lambda) = Pr(X = K) = \frac{\lambda^k \cdot e^{-\lambda}}{k!}
+\end{aligned}$
+
+```{r}
+poisson_curve = function(lambda,k){
+  res = lambda^k * exp(-lambda) / factorial(k)
+  return(res)
+}
+
+ggplot() +
+  xlim(0,10)  + 
+  geom_function(fun = poisson_curve,
+                args = list(lambda = 2)) + 
+  theme_classic() + 
+  theme(panel.grid.major = element_line(color = 'grey',
+                                        size = 0.5,
+                                        linetype = 2)) + 
+  labs(y = 'probability mass', title = 'Poisson p.m.f.')
+```
+
+```{python, message = T}
+def poisson_curve_py(lambeda: float, k: int) -> float:
+  res = lambeda**k * np.exp(-lambeda) / np.math.factorial(k)
+  return res
+
+fig = plt.figure()
+ax = fig.add_subplot(1,1,1)
+
+ax.spines['left'].set_position('left')
+ax.spines['bottom'].set_position('zero')
+ax.spines['right'].set_color('none')
+ax.spines['top'].set_color('none')
+ax.xaxis.set_ticks_position('bottom')
+ax.yaxis.set_ticks_position('left')
+
+x = range(50)
+y = [poisson_curve_py(20,i) for i in x]
+
+plt.plot(x, y)
+plt.show()
+```
+
+
 
 # GLM - Generalized Linear Models
 
@@ -119,13 +251,27 @@ There are three components to any GLM:
 
 * **Link Function**, $\eta$ or $g(\mu)$ - specifies the link between the random and the systematic components. It indicates how the expected value of the response relates to the linear combination of explanatory variables; e.g., $\eta = g(E(Y_i)) = E(Y_i)$  for classical regression, or $\eta = log(\frac{\pi}{1-\pi}) = logit(\pi)$  for logistic regression.
 
+The link function is called a **canonical** link function if $g(E[Y]) = \theta$. Using a canonical link function can be advantageous for their properties.
+  
+Some examples include:
+
+  * Normal link function: $g(E[Y]) = \mu$ and $\theta = \mu$. This is the identity function, and its use corresponds to traditional linear regression.
+  
+$\begin{aligned}
+g(\mu) = \mu
+\end{aligned}$
+  
+  
+
 ## R
 
 ```{r glm}
-df %>% 
+df %>%
+  mutate(setosa = case_when(Species == 'setosa' ~ 1,
+                            T ~ 0)) %>% 
   ggplot +
   geom_point(aes(x = Sepal.Width,
-                 y = Petal.Length)) + 
-  theme_classic()
+                 y = setosa)) + 
+  theme_classic() 
 ```
 
