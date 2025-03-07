@@ -1,0 +1,5 @@
+project:
+  title: 'handbook'
+  execute-dir: project
+  type: default
+  output-dir: _output

@@ -1,6 +1,7 @@
 ---
 title: "State Space Models"
-output: html_notebook
+format: pdf
+editor: visual
 ---
 
 ```{r}
@@ -8,17 +9,15 @@ library(dplyr)
 library(ggplot2)
 ```
 
-
 Process equation:
 
 $$
 x_t = f(x_{t-1}) + \eta _t
 $$
 
-
-* $x_t$ is the **process state**, for example, true population size.
-* $f(x_{t-1})$ is the **behavioural mechanism**
-* $\eta_t$ is the **process noise**
+-   $x_t$ is the **process state**, for example, true population size.
+-   $f(x_{t-1})$ is the **behavioural mechanism**
+-   $\eta_t$ is the **process noise**
 
 The process equation models the true, unobservable state of the variable $x$. It has an autorregressive structure, being a function of $x_{t-1}$
 
@@ -28,12 +27,9 @@ $$
 y_t = g(x_t) + \epsilon_t
 $$
 
-
-* $y_t$ is the **observation data**
-* $g(x_t)$ is the **observation mechanism**
-* $\epsilon_t$* is the observation/measurement error
-
-
+-   $y_t$ is the **observation data**
+-   $g(x_t)$ is the **observation mechanism**
+-   $\epsilon_t$\* is the observation/measurement error
 
 While there is temporal correlation between $x(t)$, there is no temporal correlation in $y(t)$!
 
@@ -91,9 +87,3 @@ $$
 \end{equation}
 
 # Fitting the data: Frequentist vs Bayesian
-
-
-
-
-
-
