@@ -45,7 +45,7 @@ $\begin{aligned}
 f(y|\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}(\frac{y-\mu}{\sigma})^2})
 \end{aligned}$
 
-which can be rewritten as 
+which can be rewritten as
 
 $\begin{aligned}
 \frac{1}{\sigma\sqrt{2\pi}} \cdot e^{\frac{-(x-\mu)^2}{2\sigma^2}}
@@ -55,9 +55,9 @@ and then, finally, applying the square of the multiplication rule, as:
 
 $\begin{aligned}
 \frac{\color{red}1}
-{\color{green}{\sigma\sqrt{2\pi}}} \cdot \color{green}{e^ {\frac{-\mu^2}{2\sigma^2}}} 
-\cdot 
-e^{(\color{blue}{-x^2} \cdot \color{pink}{\frac{1}{2\sigma^2}} + \color{pink}{x} 
+{\color{green}{\sigma\sqrt{2\pi}}} \cdot \color{green}{e^ {\frac{-\mu^2}{2\sigma^2}}}
+\cdot
+e^{(\color{blue}{-x^2} \cdot \color{pink}{\frac{1}{2\sigma^2}} + \color{pink}{x}
 \cdot \color{purple} {\frac{\mu}{\sigma^2}})}
 \end{aligned}$
 
@@ -71,7 +71,7 @@ $\begin{aligned}
 f(x|\theta) = h(x)\cdot c(\theta) \cdot e^{\sum_{i=1}^k w_i(\theta) \cdot t_i(x)}
 \end{aligned}$
 
-From the previous example, 
+From the previous example,
 
 $\begin{aligned}
 & h(x) = \color{red}{1}\\
@@ -88,7 +88,7 @@ $\begin{aligned}
 f(y|\theta,\phi) = e^{\frac{y\theta - b(\theta)}{a(\phi)} + c(y,\phi)}
 \end{aligned}$
 
-The previously shown p.d.f. of the normal distribution can also be written as 
+The previously shown p.d.f. of the normal distribution can also be written as
 
 $\begin{aligned}
 e^{\frac{y \mu - \frac{\mu^2}{2}}{\sigma^2} + ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}
@@ -97,10 +97,10 @@ e^{\frac{y \mu - \frac{\mu^2}{2}}{\sigma^2} + ln(\frac{1}{\sigma\sqrt{2\pi}}) - 
 or
 
 $\begin{aligned}
-e^{\frac{\color{red}{y \mu} - 
+e^{\frac{\color{red}{y \mu} -
 \color{green}{\frac{\mu^2}{2}}}
 {\color{blue}
-{\sigma^2}} + 
+{\sigma^2}} +
 \color{purple}{
 ln(\frac{1}{\sigma\sqrt{2\pi}}) - \frac {y^2} {2 \sigma^2}}}
 \end{aligned}$
@@ -248,8 +248,6 @@ plt.plot(x, y)
 plt.show()
 ```
 
-
-
 # GLM - Generalized Linear Models
 
 [source](https://online.stat.psu.edu/stat504/lesson/6/6.1#:~:text=The%20term%20%22general%22%20linear%20model,(with%20fixed%20effects%20only))
@@ -260,23 +258,21 @@ The term "generalized" linear model (GLIM or GLM) refers to a larger class of mo
 
 There are three components to any GLM:
 
-* **Random Component** - specifies the probability distribution of the response variable; e.g., normal distribution for $Y$ in the classical regression model, or binomial distribution for $Y$ in the binary logistic regression model. This is the only random component in the model; there is not a separate error term.
+-   **Random Component** - specifies the probability distribution of the response variable; e.g., normal distribution for $Y$ in the classical regression model, or binomial distribution for $Y$ in the binary logistic regression model. This is the only random component in the model; there is not a separate error term.
 
-* **Systematic Component** - specifies the explanatory variables $(x_1,x_2,\cdots,x_k$,in the model, more specifically, their linear combination; e.g., $\beta_0+\beta_1 x_1 + \beta_2 x_2$ , as we have seen in a linear regression, and as we will see in the logistic regression in this lesson.
+-   **Systematic Component** - specifies the explanatory variables $(x_1,x_2,\cdots,x_k$,in the model, more specifically, their linear combination; e.g., $\beta_0+\beta_1 x_1 + \beta_2 x_2$ , as we have seen in a linear regression, and as we will see in the logistic regression in this lesson.
 
-* **Link Function**, $\eta$ or $g(\mu)$ - specifies the link between the random and the systematic components. It indicates how the expected value of the response relates to the linear combination of explanatory variables; e.g., $\eta = g(E(Y_i)) = E(Y_i)$  for classical regression, or $\eta = log(\frac{\pi}{1-\pi}) = logit(\pi)$  for logistic regression.
+-   **Link Function**, $\eta$ or $g(\mu)$ - specifies the link between the random and the systematic components. It indicates how the expected value of the response relates to the linear combination of explanatory variables; e.g., $\eta = g(E(Y_i)) = E(Y_i)$ for classical regression, or $\eta = log(\frac{\pi}{1-\pi}) = logit(\pi)$ for logistic regression.
 
 The link function is called a **canonical** link function if $g(E[Y]) = \theta$. Using a canonical link function can be advantageous for their properties.
-  
+
 Some examples include:
 
-  * Normal link function: $g(E[Y]) = \mu$ and $\theta = \mu$. This is the identity function, and its use corresponds to traditional linear regression.
-  
+-   Normal link function: $g(E[Y]) = \mu$ and $\theta = \mu$. This is the identity function, and its use corresponds to traditional linear regression.
+
 $\begin{aligned}
 g(\mu) = \mu
 \end{aligned}$
-  
-  
 
 ## R
 
@@ -289,4 +285,3 @@ df %>%
                  y = setosa)) + 
   theme_classic() 
 ```
-
