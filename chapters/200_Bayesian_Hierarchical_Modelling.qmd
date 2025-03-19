@@ -1,0 +1,52 @@
+---
+title: "Bayesian Hierarchical Modelling"
+format: pdf
+editor: visual
+---
+
+## Chapter 1
+
+![](https://bayesball.github.io/LATEX/figures/chapter1/ballsinbowl3.png)
+
+
+![](https://bayesball.github.io/LATEX/figures/chapter1/ballsinbowl4.png)
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+The **Frequentist** interpretation of probability is well suited to situations when outcomes are equally likely. The scenario depicted above is an example of equally likely outcomes resulting in different combinations (2 white, 2 brown, 1 white 1 brown) with uneven probabilities.
+
+This is an example of a double dice roll, like escaping the jail in Monopoly. As we can see, the observed outcome in the experiment (0.167) is very close to the theoretical outcome in this situation which is 1/6.
+
+```{r}
+#| echo: true
+
+set.seed(123)
+
+two_rolls = function(){
+  sample(1:6,
+         size = 2,
+         replace = T)
+}
+
+many_rolls = replicate(1000,
+                       two_rolls())
+
+df = data.frame(Die_1 = many_rolls[1,],
+                Die_2 = many_rolls[2,]) %>% 
+  mutate(match = ifelse(Die_2 == Die_1, 'Yes', 'No'))
+
+# Empirical probability
+table(df$match)['Yes']/1000
+
+```
+
+In this scenario we were able to list the theoretical outcomes in such a way that each outcome was equally likely, which enabled us to predict the probability of each occurrence (doubles vs non-doubles, for example).  This is known as the *Classical View*. If, for some reason, we were unable to map all possible combinations with even likelihoods, we also showed that a viable alternative would be to repeat a random experiment many times under similar conditions. If done correctly, the observed outcome will aproach the theoretical probability. This is the *Frequentist View*.
+
+
+
+
