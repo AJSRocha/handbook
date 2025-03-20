@@ -8,7 +8,6 @@ editor: visual
 
 ![](https://bayesball.github.io/LATEX/figures/chapter1/ballsinbowl3.png)
 
-
 ![](https://bayesball.github.io/LATEX/figures/chapter1/ballsinbowl4.png)
 
 ```{r}
@@ -17,6 +16,8 @@ editor: visual
 
 library(tidyverse)
 ```
+
+### Different ways to view probabilities
 
 The **Frequentist** interpretation of probability is well suited to situations when outcomes are equally likely. The scenario depicted above is an example of equally likely outcomes resulting in different combinations (2 white, 2 brown, 1 white 1 brown) with uneven probabilities.
 
@@ -45,8 +46,39 @@ table(df$match)['Yes']/1000
 
 ```
 
-In this scenario we were able to list the theoretical outcomes in such a way that each outcome was equally likely, which enabled us to predict the probability of each occurrence (doubles vs non-doubles, for example).  This is known as the *Classical View*. If, for some reason, we were unable to map all possible combinations with even likelihoods, we also showed that a viable alternative would be to repeat a random experiment many times under similar conditions. If done correctly, the observed outcome will aproach the theoretical probability. This is the *Frequentist View*.
+In this scenario we were able to list the theoretical outcomes in such a way that each outcome was equally likely, which enabled us to predict the probability of each occurrence (doubles vs non-doubles, for example). This is known as the *Classical View*. If, for some reason, we were unable to map all possible combinations with even likelihoods, we also showed that a viable alternative would be to repeat a random experiment many times under similar conditions. If done correctly, the observed outcome will aproach the theoretical probability. This is the *Frequentist View*.
 
+In some situations, however, neither of these approaches can be applied. In the example of a tournament of eight teams playing a tournament, the strenght of each team and all variables that influence it are very hard to account for and different between teams, so mapping the probability of each outcome is impossible. Since tournaments are limited events, repeated experiments to approach the real probability are also not feasable. So a third approach must be considered, which will be refered to as the *Subjective View* of probability.
 
+This probabilities start off as little more than estimations, or expressions of belief. For example, what would be the probability of a woman becoming president in the next 20 years ($W$)? Like the tournament example, this is impossible to gauge *a priori* and any value put forward would be little more than a guess or a personal belief. However, it is possible to calibrate the initial guess for $Prob(W)$.
 
+If we consider an event of drawing a ball from a bag with 5 red balls and 5 white balls, it is clear through the *Classical View* that drawing a red ball $B$ can be characterized by $Prob(B) = 0.5$.
+
+Consider that there was a prize associated with a favourable outcome of either bet, $W$ or $B$. If we presented $Prob(B) = 0.5$, then choosing $B$ means we believe that $Prob(W)$ must fall between the interval $[0,0.5]$ in order to $B$ to be the advantageous choice. In order to calibrate our estimate of $W$, we can simply change the proposition of $B$: If $B$ was now the outcome of the draw of a bag with 2 red balls and 8 white balls, whith $Prob(B) = 0.2$, for a prize of \$100, do we choose to go with $B$ or $W$? If we choose $W$, then we believe its probability to be higher than 0.2. This is an approximation of the strength of our conviction on $Prob(W)$.
+
+### Sample Space
+
+As we discussed previously, being able to map all possible outcomes is a crucial first step to determine probabilities, regardless of the approach chosen. Let's take the example of 2 dice rolls. There are several ways to map the outcomes of this experiment. Here are some possibilities:
+
+-   Represent the outcomes via the sum of pips in both dice. In this approach, $S = \{2,3,4,5,6,7,8,9,10,11,12\}$. This is a very compact way to represent all possible outcomes that has the advantage of being practical, ie these are the scores that would be recorded in a 2-dice game. However, it is not immediately obvious how probabilities are distributed between the different outcomes when they are mapped in this fashion.
+
+-   Another option would be to represent all possible combinations: 
+$$
+S = \{(1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(2,2),(2,3),(2,4),(2,5),(2,6),(3,3),\dots\}
+$$
+
+This is a more detailed representation than the previous one, but conflates the dice order, *ie* $(4,1)$ and $(1,4)$ share the same representation.
+
+* In order to ensure that all combinations are represented with evenly distributed probabilities for each outcome, the out outcomes can be mapped in a $n$-dimensional matrix where $n$ is the number of dice (in this case, a 2D matrix for 2 dice).
+
+(1, 1) 	(1, 2) 	(1, 3) 	(1, 4) 	(1, 5) 	(1, 6)
+(2, 1) 	(2, 2) 	(2, 3) 	(2, 4) 	(2, 5) 	(2, 6)
+(3, 1) 	(3, 2) 	(3, 3) 	(3, 4) 	(3, 5) 	(3, 6)
+(4, 1) 	(4, 2) 	(4, 3) 	(4, 4) 	(4, 5) 	(4, 6)
+(5, 1) 	(5, 2) 	(5, 3) 	(5, 4) 	(5, 5) 	(5, 6)
+(6, 1) 	(6, 2) 	(6, 3) 	(6, 4) 	(6, 5) 	(6, 6)
+
+* Lastly, to ensure all combinations are accounted for, a branch map can be deployed. This is specially usefull if the events are assymetrical
+
+![](https://bayesball.github.io/LATEX/figures/chapter1/twodice.png)
 
